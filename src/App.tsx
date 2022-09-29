@@ -1,24 +1,15 @@
-import { StatusBar, StyleSheet } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
-import SignUpScreen from './screens/SignUpScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
+import { GuestRoutes } from './routes/GuestRoutes';
 
 export default function App() {
   return (
-    <>
-    <StatusBar/>
-    <LoginScreen/>
-    <SignUpScreen/>
-    </>
+    <NavigationContainer>
+      <StatusBar />
+      <GuestRoutes />
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 

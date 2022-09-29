@@ -31,7 +31,7 @@ export default function LoginScreen({navigation, route}: Props) {
                         icon={isPassInvisible ? "eye" : "eye-off"}
                         onPress={() => setIsPassVisible(!isPassInvisible)} />}
                 />
-                <TouchableOpacity style={styles.registerLink} >
+                <TouchableOpacity style={styles.registerLink} onPress={()=> navigation.navigate("SignUpScreen", {email: "email@email.com"})}>
                     <Text>Não possui uma conta? Cadastre-se!</Text>
                 </TouchableOpacity>
                 <SquareButton style={styles.rowSpacing} mode="contained" icon="login">

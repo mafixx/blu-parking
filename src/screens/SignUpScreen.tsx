@@ -4,16 +4,18 @@ import { TextInput } from "react-native-paper";
 import { SquareButton } from "../components/SquareButton";
 import { GuestStackParamList } from "../routes/GuestRoutes";
 
-type Props = NativeStackScreenProps<GuestStackParamList, "LoginScreen">
+type Props = NativeStackScreenProps<GuestStackParamList, "SignUpScreen">
 
 export default function SignUpScreen({navigation, route}: Props){
+    const {email} = route.params;
+
     return(
         <KeyboardAvoidingView>
-            <TextInput label="Nome"/>
-            <TextInput label="E-mail"/>
-            <TextInput label="Confirmar e-mail"/>
-            <TextInput label="Senha"/>
-            <TextInput label="Confirmar senha"/>
+            <TextInput label="Nome" mode="outlined"/>
+            <TextInput label="E-mail" value={email} mode="outlined"/>
+            <TextInput label="Confirmar e-mail" value={email} mode="outlined"/>
+            <TextInput label="Senha" mode="outlined"/>
+            <TextInput label="Confirmar senha" mode="outlined"/>
             <SquareButton>Cadastrar-se</SquareButton>
         </KeyboardAvoidingView>
     );

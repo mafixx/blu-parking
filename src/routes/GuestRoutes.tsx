@@ -16,10 +16,10 @@ const Stack = createNativeStackNavigator<GuestStackParamList>();
 export function GuestRoutes(){
     return (
         <Stack.Navigator>
-            <Stack.Screen name="LoginScreen">
-                {(props) => <LoginScreen (...props) />}
+            <Stack.Screen name="LoginScreen" options={{ headerShown: false}}>
+                {(props) => <LoginScreen {...props} />}
             </Stack.Screen>
-            <Stack.Screen>
+            <Stack.Screen name="SignUpScreen">
                 {(props) => <SignUpScreen {...props} />}
             </Stack.Screen>
         </Stack.Navigator>
