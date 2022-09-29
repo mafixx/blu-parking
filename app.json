@@ -3,6 +3,7 @@
     "name": "blu-parking",
     "slug": "blu-parking",
     "version": "1.0.0",
+    "entrypoint": "./src/App.tsx",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
