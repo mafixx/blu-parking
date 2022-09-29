@@ -19,7 +19,7 @@ export function GuestRoutes(){
             <Stack.Screen name="LoginScreen" options={{ headerShown: false}}>
                 {(props) => <LoginScreen {...props} />}
             </Stack.Screen>
-            <Stack.Screen name="SignUpScreen">
+            <Stack.Screen name="SignUpScreen" options={{ title: "Cadastro de Clientes"}}>
                 {(props) => <SignUpScreen {...props} />}
             </Stack.Screen>
         </Stack.Navigator>

@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View } from "react-
 import { Avatar, Text, TextInput } from "react-native-paper";
 import { SquareButton } from "../components/SquareButton";
 import { GuestStackParamList } from "../routes/GuestRoutes";
+import { commonStyles } from "../theme/commonStyles";
 
 type Props = NativeStackScreenProps<GuestStackParamList, "LoginScreen">
 
@@ -17,13 +18,13 @@ export default function LoginScreen({navigation, route}: Props) {
             </View>
             <View style={styles.inputContainer}>
                 <TextInput
-                    style={styles.rowSpacing}
+                    style={commonStyles.rowSpacing}
                     label="E-mail"
                     mode="outlined"
                     keyboardType="email-address" //importante para direcionar o teclado ao campo que usuário digitar
                 />
                 <TextInput
-                    style={styles.rowSpacing}
+                    style={commonStyles.rowSpacing}
                     label="Senha"
                     mode="outlined"
                     secureTextEntry={isPassInvisible}
@@ -34,10 +35,10 @@ export default function LoginScreen({navigation, route}: Props) {
                 <TouchableOpacity style={styles.registerLink} onPress={()=> navigation.navigate("SignUpScreen", {email: "email@email.com"})}>
                     <Text>Não possui uma conta? Cadastre-se!</Text>
                 </TouchableOpacity>
-                <SquareButton style={styles.rowSpacing} mode="contained" icon="login">
+                <SquareButton style={commonStyles.rowSpacing} mode="contained" icon="login">
                     Entrar
                 </SquareButton>
-                <SquareButton style={styles.rowSpacing} mode="contained" icon="google" buttonColor="red">
+                <SquareButton style={commonStyles.rowSpacing} mode="contained" icon="google" buttonColor="red">
                     Entrar com o Google
                 </SquareButton>
                 {/* <Button mode="contained" icon="facebook" buttonColor="blue">
@@ -62,9 +63,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingHorizontal: 15,
         margin: 10,
-    },
-    rowSpacing: {
-        margin: 5,
     },
     registerLink: {
         margin: 10,
