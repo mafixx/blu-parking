@@ -1,51 +1,79 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Avatar, Text, TextInput } from "react-native-paper";
+import { Avatar, HelperText, Text, TextInput } from "react-native-paper";
+import * as yup from "yup";
 import { SquareButton } from "../components/SquareButton";
+import { TextInputPassword } from "../components/TextInputPassword";
 import { GuestStackParamList } from "../routes/GuestRoutes";
 import { commonStyles } from "../theme/commonStyles";
+import { Formik } from "formik";
 
 type Props = NativeStackScreenProps<GuestStackParamList, "LoginScreen">
 
-export default function LoginScreen({navigation, route}: Props) {
-    const [isPassInvisible, setIsPassVisible] = useState(false);
+const LoginValidationSchema = yup.object().shape({
+    email: yup.string().
+        email("O email precisa ser válido.").
+        required("O e-mail é obrigatório!"),
+    password: yup.string().
+        required("Por favor, digite sua senha.").
+        min(8, "A senha tem que conter 8 caracteres, uma letra maiúscula, uma minúscula, um número , um caracter especial e um caractere especial")
+});
 
+export default function LoginScreen({ navigation, route }: Props) {
+    async function userLogin() { }
     return (
         <KeyboardAvoidingView style={styles.container}>
             <View style={styles.logoContainer}>
                 <Avatar.Image size={256} source={require("../../assets/icon.png")} />
             </View>
+            
+            <Formik
+                initialValues={{
+                    email: "",
+                    password: ""
+                }}
+                validationSchema={LoginValidationSchema}
+                onSubmit={userLogin}
+            >
+            {({ handleChange, handleBlur, values, errors, isValid, handleSubmit }) => (
             <View style={styles.inputContainer}>
                 <TextInput
+                    value={values.email}
+                    error={!!errors.email}
+                    onChangeText={handleChange("email")}
                     style={commonStyles.rowSpacing}
                     label="E-mail"
                     mode="outlined"
                     keyboardType="email-address" //importante para direcionar o teclado ao campo que usuário digitar
                 />
-                <TextInput
+                <HelperText type="error" visible={!!errors.email}>{errors.email}</HelperText>
+
+                <TextInputPassword
+                    value={values.password}
+                    error={!!errors.password}
+                    onChangeText={handleChange("password")}
+                    onBlur={handleBlur("password")}
                     style={commonStyles.rowSpacing}
                     label="Senha"
                     mode="outlined"
-                    secureTextEntry={isPassInvisible}
-                    right={<TextInput.Icon
-                        icon={isPassInvisible ? "eye" : "eye-off"}
-                        onPress={() => setIsPassVisible(!isPassInvisible)} />}
                 />
-                <TouchableOpacity style={styles.registerLink} onPress={()=> navigation.navigate("SignUpScreen", {email: "email@email.com"})}>
+                <HelperText type="error" visible={!!errors.password}>{errors.password}</HelperText>
+
+                <TouchableOpacity style={styles.registerLink} onPress={() => navigation.navigate("SignUpScreen", { email: "email@email.com" })}>
                     <Text>Não possui uma conta? Cadastre-se!</Text>
                 </TouchableOpacity>
-                <SquareButton style={commonStyles.rowSpacing} mode="contained" icon="login">
+                <SquareButton disabled= {isValid} style={commonStyles.rowSpacing} mode="contained" icon="login">
                     Entrar
                 </SquareButton>
-                <SquareButton style={commonStyles.rowSpacing} mode="contained" icon="google" buttonColor="red">
+                <SquareButton onPress={handleSubmit} style={commonStyles.rowSpacing} mode="contained" icon="google" buttonColor="red">
                     Entrar com o Google
                 </SquareButton>
                 {/* <Button mode="contained" icon="facebook" buttonColor="blue">
                 Entrar com o Facebook
             </Button> */}
-
-            </View>
+                </View>
+            )}
+            </Formik>
         </KeyboardAvoidingView>
     );
 }
