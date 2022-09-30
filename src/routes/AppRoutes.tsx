@@ -21,7 +21,9 @@ function HomeScreenWithDrawerMenu(){
 export function AppRoutes(){
     return(
         <Stack.Navigator>
-            {/* <Stack.Screen/> */}
+            <Stack.Screen name="HomeScreen">
+                {(props) => <HomeScreenWithDrawerMenu/>}
+            </Stack.Screen>/>
         </Stack.Navigator>
     )
 }
