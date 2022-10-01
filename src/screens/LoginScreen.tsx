@@ -7,6 +7,7 @@ import { TextInputPassword } from "../components/TextInputPassword";
 import { GuestStackParamList } from "../routes/GuestRoutes";
 import { commonStyles } from "../theme/commonStyles";
 import { Formik } from "formik";
+import { useAuth } from "../contexts/AuthContext";
 
 type Props = NativeStackScreenProps<GuestStackParamList, "LoginScreen">
 
@@ -20,7 +21,8 @@ const LoginValidationSchema = yup.object().shape({
 });
 
 export default function LoginScreen({ navigation, route }: Props) {
-    async function userLogin() { }
+    const {logIn} = useAuth();
+
     return (
         <KeyboardAvoidingView style={styles.container}>
             <View style={styles.logoContainer}>
@@ -33,7 +35,7 @@ export default function LoginScreen({ navigation, route }: Props) {
                     password: ""
                 }}
                 validationSchema={LoginValidationSchema}
-                onSubmit={userLogin}
+                onSubmit={({ email, password}) => logIn(email,password)}
             >
             {({ handleChange, handleBlur, values, errors, isValid, handleSubmit }) => (
             <View style={styles.inputContainer}>
@@ -59,10 +61,10 @@ export default function LoginScreen({ navigation, route }: Props) {
                 />
                 <HelperText type="error" visible={!!errors.password}>{errors.password}</HelperText>
 
-                <TouchableOpacity style={styles.registerLink} onPress={() => navigation.navigate("SignUpScreen", { email: "email@email.com" })}>
+                <TouchableOpacity style={styles.registerLink} onPress={() => navigation.navigate("SignUpScreen", { email:values.email })}>
                     <Text>Não possui uma conta? Cadastre-se!</Text>
                 </TouchableOpacity>
-                <SquareButton disabled= {isValid} style={commonStyles.rowSpacing} mode="contained" icon="login">
+                <SquareButton onPress={handleSubmit} disabled= {!isValid} style={commonStyles.rowSpacing} mode="contained" icon="login">
                     Entrar
                 </SquareButton>
                 <SquareButton onPress={handleSubmit} style={commonStyles.rowSpacing} mode="contained" icon="google" buttonColor="red">

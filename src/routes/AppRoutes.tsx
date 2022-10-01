@@ -11,7 +11,7 @@ function HomeScreenWithDrawerMenu(){
         <Drawer.Navigator
             drawerContent={(props)=> <Menu/>}
         >
-            <Drawer.Screen name="HomeScreen"> 
+            <Drawer.Screen name="HomeScreenDrawer" options={{headerShown: false}}> 
                 {(props)=> <HomeScreen/>}
                 </Drawer.Screen>
         </Drawer.Navigator>
@@ -21,9 +21,9 @@ function HomeScreenWithDrawerMenu(){
 export function AppRoutes(){
     return(
         <Stack.Navigator>
-            <Stack.Screen name="HomeScreen">
+            <Stack.Screen name="HomeScreen" options={{headerShown: false}}>
                 {(props) => <HomeScreenWithDrawerMenu/>}
-            </Stack.Screen>/>
+            </Stack.Screen>
         </Stack.Navigator>
     )
 }
