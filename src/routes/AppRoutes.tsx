@@ -1,10 +1,21 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { IconButton } from "react-native-paper";
 import { Menu } from "../components/Menu";
+import AddEditVehicleScreen from "../screens/AddEditVehicleScreen";
 import HomeScreen from "../screens/HomeScreen";
+import { commonStyles } from "../theme/commonStyles";
+import { VehicleInterface } from "../types/Vehicle";
+
+export type AppStackParamList = {
+    HomeScreen: undefined;
+    AddEditVehicleScreen: {
+        vehicle: VehicleInterface | undefined;
+    }
+}
 
 const Drawer = createDrawerNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<AppStackParamList>();
 
 function HomeScreenWithDrawerMenu(){
     return(
@@ -20,10 +31,33 @@ function HomeScreenWithDrawerMenu(){
 
 export function AppRoutes(){
     return(
-        <Stack.Navigator>
+        <Stack.Navigator 
+            initialRouteName="AddEditVehicleScreen"
+            screenOptions={{
+                headerTintColor: commonStyles.colors.darkBlue,
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 25,
+                },
+                headerTitleAlign: "center",
+                headerLeft: props=>(
+                    <IconButton {...props} 
+                        icon={"chevron-left"} 
+                        size={45} 
+                        iconColor={commonStyles.colors.darkBlue}
+                    />
+                )
+            }}
+        >
             <Stack.Screen name="HomeScreen" options={{headerShown: false}}>
                 {(props) => <HomeScreenWithDrawerMenu/>}
             </Stack.Screen>
-        </Stack.Navigator>
+        
+            <Stack.Screen name="AddEditVehicleScreen" options={(props) => ({
+                title: !!props.route.params ? "Editar veículo" : "Cadastrar Veículo"
+            })}>
+                {(props) => <AddEditVehicleScreen {...props}/>}
+            </Stack.Screen>
+    </Stack.Navigator>
     )
 }

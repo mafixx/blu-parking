@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Dimensions, FlatList, ListRenderItemInfo, StyleSheet, Text, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
+import { VehicleItem } from "../components/VehicleItem";
 import { commonStyles } from "../theme/commonStyles";
 import { VehicleInterface } from "../types/Vehicle";
 
@@ -12,8 +13,8 @@ export default function HomeScreen() {
         {id: "b321", vehicleModel: "Toyota Corolla", licensePlate: "DPA-0026", isParked: true, parkingTimeLeft: 100}
     ]);
     
-function renderVehicle(item: ListRenderItemInfo<VehicleInterface>){
-    return <></>
+function renderVehicle(item: VehicleInterface){
+    return <VehicleItem vehicle={item}/>
 }
 
     return (
@@ -23,12 +24,13 @@ function renderVehicle(item: ListRenderItemInfo<VehicleInterface>){
                 <View style={styles.balanceContainer}>
                     <Text style={styles.currency}>R$</Text>
                     <Text style={styles.balanceText}>500,00</Text>
+                    <IconButton icon={"plus"} size={40} style={styles.addButton} iconColor={"#fff"}/>
                 </View>
             </View>
             <View style={styles.vehiclesContainer}>
                 <FlatList
                     data={vehicles}
-                    renderItem={item=> renderVehicle(item)}
+                    renderItem={({item})=> renderVehicle(item)}
                     keyExtractor={item => item.id}
                 />
             </View>
@@ -74,6 +76,13 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     vehiclesContainer: {
-        flex: 7,
+        flex: 6,
+        paddingTop: screenWidth / 3 + 80,
+        paddingHorizontal: 20,
     },
+    addButton:{
+        backgroundColor: commonStyles.colors.primary,
+        position: "absolute",
+        bottom: -40,
+    }
 });
