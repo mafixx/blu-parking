@@ -17,7 +17,7 @@ const LoginValidationSchema = yup.object().shape({
         required("O e-mail é obrigatório!"),
     password: yup.string().
         required("Por favor, digite sua senha.").
-        min(8, "A senha tem que conter 8 caracteres, uma letra maiúscula, uma minúscula, um número e um caracter especial")
+        min(8, "A senha tem que conter 8 caracteres, uma letra maiúscula, uma minúscula, um número e um caracter especial.")
 });
 
 export default function LoginScreen({ navigation, route }: Props) {
