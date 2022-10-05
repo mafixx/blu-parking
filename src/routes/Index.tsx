@@ -3,18 +3,18 @@ import SplashScreen from "../screens/SplashScreen";
 import { AppRoutes } from "./AppRoutes";
 import { GuestRoutes } from "./GuestRoutes";
 
-export function Routes(){
+export function Routes() {
     const { isLoading, userToken } = useAuth();
 
-    return(
+    return (
         <>
-        {
-            isLoading ?
-            <SplashScreen/> :
-            userToken ?
-            <AppRoutes/> :
-            <GuestRoutes />
-        }
+            {
+                isLoading ?
+                    <SplashScreen /> :
+                    userToken ?
+                        <AppRoutes /> :
+                        <GuestRoutes />
+            }
         </>
     )
 }

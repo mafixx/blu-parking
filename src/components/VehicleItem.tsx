@@ -1,23 +1,28 @@
 import { StyleSheet, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { Button, IconButton, Text } from "react-native-paper";
+import { useVehicles } from "../contexts/VehicleContext";
 import { commonStyles } from "../theme/commonStyles";
 import { VehicleInterface } from "../types/Vehicle";
 
 type Props = {
     vehicle: VehicleInterface;
+    onEdit: VoidFunction;
+    onParkVehicle: VoidFunction;
 };
 
 export function VehicleItem(props: Props) {
+    const { deleteVehicle } = useVehicles();
+    
     function getLeftContent() {
         return (
-            <IconButton icon={"pencil"} iconColor="#fff"  size={50} style={[styles.deleteButton, { backgroundColor: commonStyles.colors.primary }]} />
+            <IconButton onPress={props.onEdit} icon={"pencil"} iconColor="#fff"  size={50} style={[styles.deleteButton, { backgroundColor: commonStyles.colors.primary }]} />
         );
     }
 
     function getRightContent() {
         return (
-            <IconButton icon={"delete"} iconColor="#fff"  size={50} style={[styles.deleteButton, { backgroundColor: "red" } ]} />
+            <IconButton onPress={()=> deleteVehicle(props.vehicle.id)} icon={"delete"} iconColor="#fff"  size={50} style={[styles.deleteButton, { backgroundColor: "red" } ]} />
         );
     }
 
@@ -30,7 +35,7 @@ export function VehicleItem(props: Props) {
                         <Text style={styles.vehicleBrand}>{props.vehicle.vehicleModel}</Text>
                         <Text style={styles.vehiclePlate}>{props.vehicle.licensePlate}</Text>
                     </View>
-                    <Button mode="contained" style={styles.parkingButton}>Estacionar</Button>
+                    <Button mode="contained" style={styles.parkingButton} onPress={props.onParkVehicle}>Estacionar</Button>
                 </View>
             </Swipeable>
         </View>

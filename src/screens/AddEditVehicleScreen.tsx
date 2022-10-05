@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Button, IconButton, Text, TextInput } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, IconButton, TextInput } from "react-native-paper";
+import { useVehicles } from "../contexts/VehicleContext";
 import { AppStackParamList } from "../routes/AppRoutes";
 import { commonStyles } from "../theme/commonStyles";
 
@@ -10,7 +11,30 @@ type Props = NativeStackScreenProps<AppStackParamList, "AddEditVehicleScreen">;
 export default function AddEditVehicleScreen(props: Props) {
 
     const [selectedVehicle, setselectedVehicle] = useState<"car" | "motorcycle">("car");
+    const {addVehicle, editVehicle} = useVehicles();
+
+    const vehicle = props.route.params?.vehicle;
     
+    const [licensePlate, setLicensePlate] = useState(vehicle?.licensePlate || "");
+    const [vehicleModel, setVehicleModel] = useState(vehicle?.vehicleModel || "");
+
+
+    function onSaveVehicle(){
+        if(vehicle){
+            editVehicle({
+                id: vehicle.id,
+                isParked: vehicle.isParked,
+                licensePlate: licensePlate,
+                vehicleModel: vehicleModel,
+                parkingTimeLeft: vehicle.parkingTimeLeft, 
+            },()=> props.navigation.push("HomeScreen"));
+        }else{
+            addVehicle({
+                licensePlate: licensePlate,
+                vehicleModel: vehicleModel,
+            },()=> props.navigation.push("HomeScreen"));
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -43,11 +67,16 @@ export default function AddEditVehicleScreen(props: Props) {
                 
             </View>
             <View style={styles.formContainer}>
-                <TextInput mode="outlined" label="Modelo do Veículo"/>
-                <TextInput mode="outlined" label="Placa"/>
+                <TextInput value={vehicleModel} onChangeText={setVehicleModel} mode="outlined" label="Modelo do Veículo"/>
+                <TextInput value={licensePlate} onChangeText={text => setLicensePlate(text.toUpperCase())} mode="outlined" label="Placa"/>
             </View>
-            <Text variant="headlineLarge"> Texto de teste </Text>
-            <Button mode="contained">{props.route.params ? "Editar Veículo" : "Cadastrar o Veículo"}</Button>
+            <Button 
+                mode="contained"
+                onPress={onSaveVehicle}>
+                    {props.route.params ? 
+                    "Editar Veículo" : 
+                    "Cadastrar o Veículo"}
+            </Button>
         </View>
     );
 }

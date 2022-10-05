@@ -5,3 +5,8 @@ export interface VehicleInterface {
     isParked: boolean;
     parkingTimeLeft: number;
 }
+
+export interface VehicleCreateInterface{
+    licensePlate: string;
+    vehicleModel: string;
+}

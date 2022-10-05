@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "blu-parking",
+    "name": "com.bluparking",
     "slug": "blu-parking",
     "version": "1.0.0",
     "entrypoint": "./src/App.tsx",
@@ -19,12 +19,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config":{
+        "googleMapsApiKey": "AIzaSyDWsqwdw-5Z-xt8Ye0UmNtLHB9HekJGUAk" 
+      }
     },
     "android": {
+      "packageName": "com.bluparking",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config":{
+        "googleMaps": {
+          "apiKey": "AIzaSyDWsqwdw-5Z-xt8Ye0UmNtLHB9HekJGUAk"
+        }
       }
     },
     "web": {
