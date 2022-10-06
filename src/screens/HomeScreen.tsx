@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { VehicleItem } from "../components/VehicleItem";
+import { useUser } from "../contexts/UserContext";
 import { useVehicles } from "../contexts/VehicleContext";
 import { AppStackParamList } from "../routes/AppRoutes";
 import { commonStyles } from "../theme/commonStyles";
@@ -25,14 +26,22 @@ export default function HomeScreen({navigation, route}: Props) {
                 />
     };
 
+    const { balance } = useUser();
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <IconButton style={styles.menu} icon={"menu"} size={32} iconColor={commonStyles.colors.primary} onPress={() => { }} />
+                <IconButton 
+                    style={styles.menu} 
+                    icon={"menu"} 
+                    size={32} 
+                    iconColor={commonStyles.colors.primary}
+                    // @ts-ignore 
+                    onPress={() => navigation.openDrawer()} 
+                />
                 <View style={styles.balanceContainer}>
                     <Text style={styles.currency}>R$</Text>
-                    <Text style={styles.balanceText}>500,00</Text>
+                    <Text style={styles.balanceText}>{balance.toFixed(2)}</Text>
                     <IconButton icon={"plus"} size={40} style={styles.addButton} iconColor={"#fff"} />
                 </View>
             </View>

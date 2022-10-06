@@ -9,6 +9,7 @@ type VehicleContextType = {
     editVehicle: (vehicle: VehicleInterface, callback: VoidFunction) => void;
     deleteVehicle: (vehicleId: string) => void;
     parkVehicle: (vehicleId: string, time: 1 | 2) => void;
+    stopParkTime: (vehicleId: string) => void;
 
 }
 
@@ -61,7 +62,17 @@ export function VehicleProvider({ children }: { children: ReactNode }) {
         }
     }
 
-    function parkVehicle(vehicleId: string, time: 1 | 2) { }
+    function parkVehicle(vehicleId: string, time: 1 | 2) {
+        const updatedVehicles = vehicles.map(v =>{
+            if(v.id === vehicleId){
+                v.isParked = true;
+                v.parkingTimeLeft = new Date().getTime();
+                v.parkingTimeLeft = time;
+            }
+            return v;
+        });
+        setVehicles(updatedVehicles);
+    }
 
     async function getAllVehicles() {
         try {
@@ -69,8 +80,19 @@ export function VehicleProvider({ children }: { children: ReactNode }) {
             setVehicles(vehicles);
         } catch (error) {
             console.error(error);
-            Alert.alert("Falha", "Não foi editar o veículo.");
+            Alert.alert("Falha", "Não foi possível editar o veículo.");
         }
+    }
+
+
+    function stopParkTime(vehicleId: string){
+        const updatedVehicles = vehicles.map(v =>{
+            if (v.id === vehicleId){
+                v.parkingTimeLeft = 0;
+                v.isParked = false;
+            }
+            return v;
+        })
     }
 
     useEffect(() => {
@@ -78,7 +100,7 @@ export function VehicleProvider({ children }: { children: ReactNode }) {
     }, [])
 
     return (
-        <VehicleContext.Provider value={{ vehicles, addVehicle, editVehicle, deleteVehicle, parkVehicle }}>
+        <VehicleContext.Provider value={{ stopParkTime, vehicles, addVehicle, editVehicle, deleteVehicle, parkVehicle }}>
             {children}
         </VehicleContext.Provider>
     )

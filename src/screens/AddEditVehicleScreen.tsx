@@ -26,6 +26,7 @@ export default function AddEditVehicleScreen(props: Props) {
                 isParked: vehicle.isParked,
                 licensePlate: licensePlate,
                 vehicleModel: vehicleModel,
+                startParkingTime: vehicle.startParkingTime,
                 parkingTimeLeft: vehicle.parkingTimeLeft, 
             },()=> props.navigation.push("HomeScreen"));
         }else{

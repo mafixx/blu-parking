@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { Button, IconButton, Text } from "react-native-paper";
@@ -26,6 +27,37 @@ export function VehicleItem(props: Props) {
         );
     }
 
+    const milisecondsDiff = Date.now() - props.vehicle.startParkingTime; 
+    
+    const [remainingSeconds, setRemainingSeconds] = useState(props.vehicle.parkingTimeLeft * 3600 - (milisecondsDiff /1000)); 
+    
+    const timerRef = useRef<NodeJS.Timer>();
+
+    const { stopParkTime } = useVehicles();
+
+    function startTimer() {
+        timerRef.current = setInterval(() => {
+            if(remainingSeconds > 0){
+                setRemainingSeconds(prev => prev - 1);
+            }else{
+                stopParkTime(props.vehicle.id);
+            }
+        }, 1000);
+    }
+
+    useEffect(() => {
+
+        startTimer();
+
+        () => {
+            return clearInterval(timerRef.current);
+        }
+    }, []);
+
+    const getRemainingHours = () => Math.floor(remainingSeconds / 60 / 60);
+    const getRemainingMinutes = () => Math.floor((remainingSeconds / 60) % 60);
+    const getRemainingSeconds = () => Math.floor(remainingSeconds % 60);
+        
 
     return (
         <View style={styles.container}>
@@ -35,7 +67,11 @@ export function VehicleItem(props: Props) {
                         <Text style={styles.vehicleBrand}>{props.vehicle.vehicleModel}</Text>
                         <Text style={styles.vehiclePlate}>{props.vehicle.licensePlate}</Text>
                     </View>
-                    <Button mode="contained" style={styles.parkingButton} onPress={props.onParkVehicle}>Estacionar</Button>
+                    {
+                        props.vehicle.isParked ? 
+                        <Button mode="contained" style={styles.parkingButton} onPress={props.onParkVehicle}>{getRemainingHours()}:{getRemainingMinutes()}:{getRemainingSeconds()}</Button>:
+                        <Button mode="contained" style={styles.parkingButton} onPress={props.onParkVehicle}>Estacionar</Button>
+                    }
                 </View>
             </Swipeable>
         </View>

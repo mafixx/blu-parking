@@ -7,8 +7,8 @@ export class VehicleService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve([
-                    {id: "1", vehicleModel: "Hyundai HB20x", licensePlate: "KZH-8H54", isParked: false, parkingTimeLeft: 0},
-                    {id: "b321", vehicleModel: "Toyota Corolla", licensePlate: "DPA-0026", isParked: true, parkingTimeLeft: 100}
+                    {id: "1", vehicleModel: "Hyundai HB20x", licensePlate: "KZH-8H54", isParked: false, parkingTimeLeft: 0, startParkingTime: 0},
+                    {id: "b321", vehicleModel: "Toyota Corolla", licensePlate: "DPA-0026", isParked: false, parkingTimeLeft: 1, startParkingTime: 1665013001380}
                 ]);
             }, 500);
         });
@@ -21,7 +21,7 @@ export class VehicleService {
                     reject(new Error("licensePlate is invalid"));
                 }
 
-                resolve({ ...vehicle, id: uuid(), isParked: false, parkingTimeLeft: 0 });
+                resolve({ ...vehicle, id: uuid(), isParked: false, parkingTimeLeft: 0, startParkingTime: 0 });
             }, 500);
         });
     }
